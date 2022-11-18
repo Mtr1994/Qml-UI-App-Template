@@ -1,12 +1,14 @@
 ﻿import QtQuick 2.15
 import QtQuick.Window 2.15
 
+import "Content"
+
 Window {
     id: window
-    width: AppFontSize.fontWidth * 100
-    height: AppFontSize.fontWidth * 56
-    minimumWidth: AppFontSize.fontWidth * 72
-    minimumHeight: AppFontSize.fontWidth * 42
+    width: AppFontSize.fontWidth * 84
+    height: AppFontSize.fontWidth * 84 * 0.618
+    minimumWidth: AppFontSize.fontWidth * 84
+    minimumHeight: AppFontSize.fontWidth * 84 * 0.618
     visible: true
     color: "#000000"
     title: "文本标记语言程序模板"
@@ -20,7 +22,6 @@ Window {
             id: maWindows
             anchors.fill: parent
             hoverEnabled: true
-
         }
 
         Rectangle {
@@ -43,6 +44,11 @@ Window {
             anchors.bottom: rectWindowBase.bottom
             anchors.margins: AppFontSize.fontWidth
             radius: AppFontSize.fontWidth
+
+            ControlsShow {
+                id: controlsShow
+                anchors.fill: parent
+            }
         }
     }
 }

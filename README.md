@@ -17,4 +17,14 @@ QML 工程的模板程序，附带一些编程技巧，方便后期快速回顾�
   QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
   ```
 
-* 其它
+* 自定义的类型，顶层容器不要加布局，在调用的时候，加入布局更合理
+
+* `import` 语句用法
+
+  ```
+  import "Content"  // 直接导入整个文件夹
+  ```
+
+
+* 控件高度需要是整数，否则会出现反走样导致底部边框多出一个像素并且变模糊
+* 控件内部字体需要使用 `renderType: TextInput.NativeRendering` 否则会显得很模糊

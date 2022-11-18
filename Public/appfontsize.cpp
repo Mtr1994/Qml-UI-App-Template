@@ -1,7 +1,7 @@
 ﻿#include "appfontsize.h"
 
-#include <QFontMetricsF>
-#include <QRectF>
+#include <QFontMetrics>
+#include <QRect>
 
 // test
 #include <QDebug>
@@ -14,16 +14,27 @@ AppFontSize::AppFontSize(QObject *parent)
 
 void AppFontSize::init()
 {
-    QFont font("Microsoft YaHei", 9);
-    QFontMetricsF metrics(font);
-    QRectF fontRect = metrics.boundingRect("国");
+    mPointSize = 9;
 
-    mFontWidth = fontRect.width();
+    QFont font("Microsoft YaHei", mPointSize);
+    QFontMetrics metrics(font);
 
-    qDebug() << "FontWidth " << mFontWidth;
+    mFontWidth = metrics.height();
+
+    mSmallRadius = 3;
 }
 
-float AppFontSize::fontWidth() const
+uint16_t AppFontSize::fontWidth() const
 {
     return mFontWidth;
+}
+
+uint16_t AppFontSize::pointSize() const
+{
+    return mPointSize;
+}
+
+uint16_t AppFontSize::smallRadius() const
+{
+    return mSmallRadius;
 }

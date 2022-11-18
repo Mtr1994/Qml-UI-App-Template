@@ -1,5 +1,6 @@
-<RCC>
+﻿<RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>Content/ControlsShow.qml</file>
     </qresource>
 </RCC>
