@@ -352,12 +352,12 @@ Item {
                         renderType: Text.NativeRendering
                         font.family: "Microsoft YaHei"
                         font.pointSize: AppFontSize.pointSize
+                        font.weight: comboBox.currentIndex === index ? Font.DemiBold : Font.Normal
                         color: "#666666"
                     }
 
                     palette.text: comboBox.palette.text
                     palette.highlightedText: comboBox.palette.highlightedText
-                    font.weight: comboBox.currentIndex === index ? Font.DemiBold : Font.Normal
                     highlighted: comboBox.highlightedIndex === index
                     hoverEnabled: comboBox.hoverEnabled
                 }
@@ -484,12 +484,12 @@ Item {
 
                 // 当按下 Return/Enter 键或者文本框失去焦点时触发
                 onEditingFinished: {
-                    console.info("text area editing finished:" + text)
+                    console.info("text area editing finished")
                 }
 
                 // 每当文本变化时触发
                 onTextChanged: {
-                    console.info("text area text changed:" + text)
+                    console.info("text area text changed")
                 }
 
                 background: Rectangle {
@@ -497,6 +497,79 @@ Item {
                     border.width: 1
                     border.color: "#d0d0d0"
                     radius: AppFontSize.smallRadius
+                }
+            }
+
+            // 列表
+            Rectangle {
+                id: rectListView
+                width: AppFontSize.fontWidth * 16
+                height: AppFontSize.fontWidth * 24
+                border.width: 1
+                border.color: "#d0d0d0"
+                radius: AppFontSize.smallRadius
+
+                ListView {
+                    id: listview
+                    anchors.fill: parent
+                    anchors.margins: AppFontSize.smallRadius * 2
+                    clip: true
+                    highlightMoveDuration: 240
+                    interactive: false
+
+                    model: ListModel {
+                        id: model
+                        ListElement { name: "苹果"; cost: 4.00 }
+                        ListElement { name: "橙子"; cost: 3.25 }
+                        ListElement { name: "香蕉"; cost: 2.45 }
+                        ListElement { name: "火龙"; cost: 2.65 }
+                        ListElement { name: "葡萄"; cost: 2.78 }
+                        ListElement { name: "香蕉"; cost: 2.45 }
+                        ListElement { name: "东果"; cost: 2.65 }
+                        ListElement { name: "葡萄"; cost: 2.78 }
+                    }
+
+                    delegate: ItemDelegate {
+                        width: parent.width
+                        height: AppFontSize.fontWidth * 2
+                        hoverEnabled: listview.hoverEnabled
+
+                        contentItem: Text {
+                            text: name
+                            elide: Text.ElideRight
+                            verticalAlignment: Text.AlignVCenter
+                            renderType: Text.NativeRendering
+                            font.family: "Microsoft YaHei"
+                            font.pointSize: AppFontSize.pointSize
+                            color: (index == listview.currentIndex) ? "#fefefe" : "#666666"
+                        }
+
+                        background: Rectangle {
+                            width: parent.width
+                            height: parent.height
+                            border.width: 0
+                            color: (index == listview.currentIndex) ? "#1890ff" : hovered ? "#f3f4f5" : "#fefefe"
+                            radius: AppFontSize.smallRadius
+                        }
+
+                        Rectangle {
+                            id: rectStatus
+                            width: AppFontSize.smallRadius * 3
+                            height: width
+                            anchors.right: parent.right
+                            anchors.rightMargin: AppFontSize.smallRadius * 2
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: "#fc9153"
+                            radius: height * 0.5
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                listview.currentIndex = index
+                            }
+                        }
+                    }
                 }
             }
         }
