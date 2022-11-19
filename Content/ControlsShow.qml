@@ -250,14 +250,14 @@ Item {
                     implicitWidth: parent.width
                     height: AppFontSize.fontWidth
                     color: "#e6e6e6"
-                    radius: parent.height * 0.5
+                    radius: parent.height * 0.6
                     anchors.verticalCenter: parent.verticalCenter
                 }
 
                 // 进度
                 contentItem: Item {
                     implicitWidth: parent.width
-                    implicitHeight: 14
+                    implicitHeight: AppFontSize.fontWidth
 
                     Rectangle {
                         width: progressBar.visualPosition * parent.width
@@ -287,7 +287,8 @@ Item {
                 }
             }
 
-            // 下拉框模型角色
+            // 下拉框模
+            // 也可以做成上拉
             ComboBox {
                 id: comboBox
                 width: AppFontSize.fontWidth * 12
@@ -402,9 +403,27 @@ Item {
                 snapMode: Slider.SnapAlways
 
                 onValueChanged: {
-                    console.info("slider 1:" + sliderVolume.visualPosition)
-                    console.info("slider 2:" + sliderVolume.availableWidth)
+                    // do something
                 }
+
+                background: Rectangle {
+                    x: sliderVolume.leftPadding
+                    y: sliderVolume.topPadding + sliderVolume.availableHeight / 2 - height / 2
+                    implicitWidth: parent.width
+                    implicitHeight: AppFontSize.smallRadius * 1.2
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: sliderVolume.availableWidth - AppFontSize.smallRadius * 2
+                    height: implicitHeight
+                    radius: height * 0.5
+                    color: "#bdbebf"
+
+                    Rectangle {
+                     width: sliderVolume.visualPosition * parent.width
+                     height: parent.height
+                     color: "#21be2b"
+                     radius: height * 0.5
+                    }
+                 }
 
                 handle: Rectangle {
                     width: AppFontSize.fontWidth
@@ -417,10 +436,69 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     radius: width * 0.5
                 }
+            }
 
+            // 输入框，可以加入密码格式、限制数值范围等回显方式
+            TextField {
+                placeholderText: qsTr("请输入密码")
+                echoMode: TextInput.Password
+                text: "123456"
+                selectByMouse: true
+                selectedTextColor: "#fefefe"
+                selectionColor: "#fc9153"
+                width: AppFontSize.fontWidth * 10
+                height: AppFontSize.fontWidth * 2
+                renderType: TextField.NativeRendering
 
+                font.family: "Microsoft YaHei"
+                font.pointSize: AppFontSize.pointSize
+                color: "#666666"
+                leftPadding: AppFontSize.smallRadius * 2
+                verticalAlignment: Text.AlignVCenter
+
+                background: Rectangle {
+                    width: parent.width
+                    height: parent.height
+                    radius: AppFontSize.smallRadius
+                    color: "#fefefe"
+                    border.width: 1
+                    border.color: "#d0d0d0"
+                }
+            }
+
+            // 富文本框
+            TextArea {
+                id: taMessage
+                text: "随着新皮肤上架免费使用皮肤池，以下皮肤将从免费使用皮肤池中下架。在2022年11月18日10点前加入福星计划的召唤师，仍可以免费使用这些皮肤，之后新加入福星计划的召唤师将不可使用。同时在2022年11月18日10点后拥有这些皮肤也不再能够将优惠券兑换成点券。"
+                width: AppFontSize.fontWidth * 16
+                height: AppFontSize.fontWidth * 12
+                renderType: TextField.NativeRendering
+                font.family: "Microsoft YaHei"
+                font.pointSize: AppFontSize.pointSize
+                color: "#666666"
+                padding: AppFontSize.smallRadius * 2
+                selectByMouse: true
+                selectedTextColor: "#fefefe"
+                selectionColor: "#fc9153"
+                wrapMode: TextArea.WordWrap
+
+                // 当按下 Return/Enter 键或者文本框失去焦点时触发
+                onEditingFinished: {
+                    console.info("text area editing finished:" + text)
+                }
+
+                // 每当文本变化时触发
+                onTextChanged: {
+                    console.info("text area text changed:" + text)
+                }
+
+                background: Rectangle {
+                    anchors.fill: parent
+                    border.width: 1
+                    border.color: "#d0d0d0"
+                    radius: AppFontSize.smallRadius
+                }
             }
         }
     }
-
 }
