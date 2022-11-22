@@ -12,6 +12,7 @@ DESTDIR = ../output
 
 SOURCES += \
         Public/appfontsize.cpp \
+        Public/appsignal.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -30,4 +31,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RC_ICONS = icon.ico
 
 HEADERS += \
-    Public/appfontsize.h
+    Public/appfontsize.h \
+    Public/appsignal.h

@@ -12,9 +12,9 @@ QML 工程的模板程序，附带一些编程技巧，方便后期快速回顾�
 * 主程序需要加以下属性，否则会导致拉伸、缩放的时候闪烁
 
   ```
-  QCoreApplication::setAttribute(Qt::AA_UseOpenGLES);
+  QCoreApplication::setAttribute(Qt::AA_UseOpenGLES);  // 该选项在 Windows 桌面会启用 GPU 
   或者（二选一，截至文档上传，不知道具体原因）
-  QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
+  QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL); // 还是消耗 CPU
   ```
 
 * 自定义的类型，顶层容器不要加布局，在调用的时候，加入布局更合理

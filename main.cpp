@@ -3,6 +3,7 @@
 #include <QQmlContext>
 
 #include "Public/appfontsize.h"
+#include "Public/appsignal.h"
 
 
 int main(int argc, char *argv[])
@@ -10,7 +11,7 @@ int main(int argc, char *argv[])
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-    QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
+    QCoreApplication::setAttribute(Qt::AA_UseOpenGLES);
 
     QGuiApplication app(argc, argv);
 
@@ -20,6 +21,9 @@ int main(int argc, char *argv[])
 
     // 字体大小计算类
     engine.rootContext()->setContextProperty("AppFontSize", &appFontSize);
+
+    // 全局信号
+    engine.rootContext()->setContextProperty("AppSignal", AppSignal::getInstance());
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app, [url](QObject *obj, const QUrl &objUrl)

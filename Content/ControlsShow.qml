@@ -1,5 +1,7 @@
 ﻿import QtQuick 2.15
+
 import QtQuick.Controls 2.5
+import QtQuick.Controls.Styles 1.4
 
 import Qt.labs.qmlmodels 1.0
 
@@ -13,6 +15,8 @@ Item {
         anchors.margins: AppFontSize.fontWidth
         radius: AppFontSize.fontWidth
 
+        property string currentControlType: ""
+
         Flow {
             id: flowMain
             spacing: AppFontSize.fontWidth * 3
@@ -24,6 +28,7 @@ Item {
                 text: "确认"
                 width: AppFontSize.fontWidth * 6
                 height: AppFontSize.fontWidth * 2
+                visible: rectControls.currentControlType === "Button"
 
                 background: Rectangle {
                     color: btnOk.down ? "#096dd9" : (btnOk.hovered ? "#40a9ff" : "#1890FF")
@@ -49,6 +54,7 @@ Item {
                 text: "取消"
                 width: AppFontSize.fontWidth * 6
                 height: AppFontSize.fontWidth * 2
+                visible: rectControls.currentControlType === "Button"
 
                 background: Rectangle {
                     color: btnCancel.down ? "#f3f4f5" : (btnCancel.hovered ? "#fefefe" : "#f3f4f5")
@@ -77,6 +83,7 @@ Item {
                 border.color: "#d0d0d0"
                 radius: AppFontSize.smallRadius
                 antialiasing: true
+                visible: rectControls.currentControlType === "TextInput"
 
                 TextInput {
                     id: inputName
@@ -101,6 +108,7 @@ Item {
                 checked: true
                 width: AppFontSize.fontWidth * 6
                 height: AppFontSize.fontWidth * 2
+                visible: rectControls.currentControlType === "CheckBox"
 
                 indicator: Rectangle {
                     implicitWidth: AppFontSize.fontWidth
@@ -141,6 +149,7 @@ Item {
                 checked: true
                 width: AppFontSize.fontWidth * 6
                 height: AppFontSize.fontWidth * 2
+                visible: rectControls.currentControlType === "RadioButton"
 
                 indicator: Rectangle {
                     implicitWidth: AppFontSize.fontWidth
@@ -180,6 +189,7 @@ Item {
                 checked: false
                 width: AppFontSize.fontWidth * 6
                 height: AppFontSize.fontWidth * 2
+                visible: rectControls.currentControlType === "RadioButton"
 
                 indicator: Rectangle {
                     implicitWidth: AppFontSize.fontWidth
@@ -218,6 +228,7 @@ Item {
                  id: switchDevice
                  width: AppFontSize.fontWidth * 3.6
                  height: AppFontSize.fontWidth * 2
+                 visible: rectControls.currentControlType === "Switch"
 
                  indicator: Rectangle {
                      width: parent.width
@@ -246,6 +257,7 @@ Item {
                 value: 36
                 width: AppFontSize.fontWidth * 12
                 height: AppFontSize.fontWidth * 2
+                visible: rectControls.currentControlType === "ProgressBar"
 
                 // 背景
                 background: Rectangle {
@@ -297,6 +309,8 @@ Item {
                 height: AppFontSize.fontWidth * 2
                 textRole: "name"
                 down: false
+                visible: rectControls.currentControlType === "ComboBox"
+
                 model: ListModel {
                     id: modelData
                     ListElement { name: "苹果"; cost: 4.00 }
@@ -403,6 +417,7 @@ Item {
                 value: 25
                 stepSize: 1
                 snapMode: Slider.SnapAlways
+                visible: rectControls.currentControlType === "Slider"
 
                 onValueChanged: {
                     // do something
@@ -458,6 +473,8 @@ Item {
                 leftPadding: AppFontSize.smallRadius * 2
                 verticalAlignment: Text.AlignVCenter
 
+                visible: rectControls.currentControlType === "TextField"
+
                 background: Rectangle {
                     width: parent.width
                     height: parent.height
@@ -483,6 +500,7 @@ Item {
                 selectedTextColor: "#fefefe"
                 selectionColor: "#fc9153"
                 wrapMode: TextArea.WordWrap
+                visible: rectControls.currentControlType === "TextArea"
 
                 // 当按下 Return/Enter 键或者文本框失去焦点时触发
                 onEditingFinished: {
@@ -502,153 +520,144 @@ Item {
                 }
             }
 
-            // 列表
-            Rectangle {
-                id: rectListView
-                width: AppFontSize.fontWidth * 16
-                height: AppFontSize.fontWidth * 24
-                border.width: 1
-                border.color: "#d0d0d0"
-                radius: AppFontSize.smallRadius
-
-                ListView {
-                    id: listview
-                    anchors.fill: parent
-                    anchors.margins: AppFontSize.smallRadius * 2
-                    clip: true
-                    highlightMoveDuration: 240
-                    interactive: false
-
-                    model: ListModel {
-                        id: model
-                        ListElement { name: "苹果"; cost: 4.00 }
-                        ListElement { name: "橙子"; cost: 3.25 }
-                        ListElement { name: "香蕉"; cost: 2.45 }
-                        ListElement { name: "火龙"; cost: 2.65 }
-                        ListElement { name: "葡萄"; cost: 2.78 }
-                        ListElement { name: "香蕉"; cost: 2.45 }
-                        ListElement { name: "东果"; cost: 2.65 }
-                        ListElement { name: "葡萄"; cost: 2.78 }
-                    }
-
-                    delegate: ItemDelegate {
-                        width: parent.width
-                        height: AppFontSize.fontWidth * 2
-                        hoverEnabled: listview.hoverEnabled
-
-                        contentItem: Text {
-                            text: name
-                            elide: Text.ElideRight
-                            verticalAlignment: Text.AlignVCenter
-                            renderType: Text.NativeRendering
-                            font.family: "Microsoft YaHei"
-                            font.pointSize: AppFontSize.pointSize
-                            color: (index == listview.currentIndex) ? "#fefefe" : "#666666"
-                        }
-
-                        background: Rectangle {
-                            width: parent.width
-                            height: parent.height
-                            border.width: 0
-                            color: (index == listview.currentIndex) ? "#1890ff" : hovered ? "#f3f4f5" : "#fefefe"
-                            radius: AppFontSize.smallRadius
-                        }
-
-                        Rectangle {
-                            id: rectStatus
-                            width: AppFontSize.smallRadius * 3
-                            height: width
-                            anchors.right: parent.right
-                            anchors.rightMargin: AppFontSize.smallRadius * 2
-                            anchors.verticalCenter: parent.verticalCenter
-                            color: "#fc9153"
-                            radius: height * 0.5
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                listview.currentIndex = index
-                            }
-                        }
-                    }
-                }
-            }
-
             // 表格
             Rectangle {
                 id: rectTableview
                 width: AppFontSize.fontWidth * 32
-                height: AppFontSize.fontWidth * 10
+                height: AppFontSize.fontWidth * 24
                 border.width: 1
                 border.color: "#d0d0d0"
                 radius: AppFontSize.smallRadius
+                visible: rectControls.currentControlType === "TableView"
 
                 TableView {
-                    anchors.fill: parent
-                    columnSpacing: 1
-                    rowSpacing: 1
-                    boundsBehavior: Flickable.StopAtBounds
+                    id: headerView
+                    height: AppFontSize.fontWidth * 2
+                    anchors.top: parent.top
+                    anchors.topMargin: AppFontSize.smallRadius
+                    anchors.left: parent.left
+                    anchors.leftMargin: AppFontSize.smallRadius
+                    anchors.right: parent.right
+                    anchors.rightMargin: AppFontSize.smallRadius
 
                     model: TableModel {
-                        TableModelColumn { display: "checked" }
-                        TableModelColumn { display: "amount" }
-                        TableModelColumn { display: "fruitType" }
-                        TableModelColumn { display: "fruitName" }
-                        TableModelColumn { display: "fruitPrice" }
-
-                        // Each row is one type of fruit that can be ordered
+                        id: modelHeader
+                        TableModelColumn { display: "名称" }
+                        TableModelColumn { display: "性别" }
+                        TableModelColumn { display: "年纪" }
+                        TableModelColumn { display: "籍贯" }
+                        TableModelColumn { display: "偏好" }
                         rows: [
-                            {
-                                // Each property is one cell/column.
-                                checked: false,
-                                amount: 1,
-                                fruitType: "Apple",
-                                fruitName: "Granny Smith",
-                                fruitPrice: 1.50
-                            },
-                            {
-                                checked: true,
-                                amount: 4,
-                                fruitType: "Orange",
-                                fruitName: "Navel",
-                                fruitPrice: 2.50
-                            },
-                            {
-                                checked: false,
-                                amount: 1,
-                                fruitType: "Banana",
-                                fruitName: "Cavendish",
-                                fruitPrice: 3.50
-                            }
+                            { "名称": "名称", "性别": "性别", "年纪": "年纪", "籍贯": "籍贯", "偏好": "偏好" }
                         ]
                     }
-                    delegate: DelegateChooser {
-                        DelegateChoice {
-                            column: 0
-                            delegate: CheckBox {
-                                checked: model.display
-                                onToggled: model.display = checked
-                            }
+
+                    delegate: Rectangle {
+                        implicitWidth: parent.width / modelHeader.columnCount
+                        implicitHeight: AppFontSize.fontWidth * 2
+
+                        Text {
+                            text: display
+                            anchors.fill: parent
+                            font.family: "Microsoft YaHei"
+                            font.pointSize: AppFontSize.pointSize
+                            renderType: Text.NativeRendering
+                            verticalAlignment: Text.AlignVCenter
+                            leftPadding: AppFontSize.fontWidth
+                            font.bold: true
                         }
-                        DelegateChoice {
-                            column: 1
-                            delegate: SpinBox {
-                                value: model.display
-                                onValueModified: model.display = value
-                            }
+
+                        Rectangle {anchors.bottom: parent.bottom; color: "#f7f7f9"; width: parent.width; height: 1}
+                    }
+                }
+
+                TableView {
+                    id: tableView
+                    anchors.top: headerView.bottom
+                    anchors.topMargin: AppFontSize.smallRadius
+                    anchors.left: parent.left
+                    anchors.leftMargin: AppFontSize.smallRadius
+                    anchors.right: parent.right
+                    anchors.rightMargin: AppFontSize.smallRadius
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: AppFontSize.smallRadius
+                    clip: true
+
+                    property int selectIndex: 0
+                    property int hoverIndex: 0
+
+                    model: TableModel {
+                        id: modelTableView
+                        TableModelColumn { display: "name"}
+                        TableModelColumn { display: "sex" }
+                        TableModelColumn { display: "age" }
+                        TableModelColumn { display: "place" }
+                        TableModelColumn { display: "per" }
+                        rows: [
+                            { "name": "Harry", "sex": "男", "age": 16, "place": "湖北", "per": "足球" },
+                            { "name": "Hedwig", "sex": "女", "age": 16, "place": "湖北", "per": "羽毛球" },
+                            { "name": "Hedwig", "sex": "女", "age": 16, "place": "湖北", "per": "羽毛球" },
+                            { "name": "Hedwig", "sex": "女", "age": 16, "place": "湖北", "per": "羽毛球" },
+                            { "name": "Hedwig", "sex": "女", "age": 16, "place": "湖北", "per": "羽毛球" },
+                            { "name": "Hedwig", "sex": "女", "age": 16, "place": "湖北", "per": "羽毛球" },
+                            { "name": "Hedwig", "sex": "女", "age": 16, "place": "湖北", "per": "羽毛球" },
+                            { "name": "Hedwig", "sex": "女", "age": 16, "place": "湖北", "per": "羽毛球" }
+                        ]
+                    }
+
+                    delegate: Rectangle {
+
+                        implicitWidth: headerView.width / modelHeader.columnCount
+                        implicitHeight: AppFontSize.fontWidth * 2
+                        color: (index % modelTableView.rowCount === tableView.selectIndex) ? "#1890ff" : (index % modelTableView.rowCount === tableView.hoverIndex) ? "#f3f4f5" : "#fefefe"
+
+                        Text {
+                            text: display
+                            anchors.fill: parent
+                            font.family: "Microsoft YaHei"
+                            font.pointSize: AppFontSize.pointSize
+                            renderType: Text.NativeRendering
+                            verticalAlignment: Text.AlignVCenter
+                            leftPadding: AppFontSize.fontWidth
+                            color: (index % modelTableView.rowCount === tableView.selectIndex) ? "#fefefe" : Qt.rgba(0, 0, 0, 0.85)
                         }
-                        DelegateChoice {
-                            delegate: TextField {
-                                text: model.display
-                                selectByMouse: true
-                                implicitWidth: 140
-                                onAccepted: model.display = text
+
+                        Rectangle {anchors.bottom: parent.bottom; color: "#f7f7f9"; width: parent.width; height: 1}
+
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: {
+                                tableView.hoverIndex = index % modelTableView.rowCount
+                            }
+                            onExited: {
+                                tableView.hoverIndex = -1
+                            }
+                            onClicked: {
+                                tableView.selectIndex = index % modelTableView.rowCount
                             }
                         }
                     }
                 }
             }
+
+            // 树形控件
+            Rectangle {
+                id: rectTreeView
+                width: AppFontSize.fontWidth * 24
+                height: AppFontSize.fontWidth * 12
+                border.width: 1
+                border.color: "#d0d0d0"
+                radius: AppFontSize.smallRadius
+                visible: rectControls.currentControlType === "TreeView"
+            }
+        }
+    }
+
+    Connections {
+        target: AppSignal
+        function onSgl_left_menu_select_change(type) {
+            rectControls.currentControlType = type
         }
     }
 }
