@@ -42,7 +42,7 @@ Window {
                 anchors.fill: parent
                 anchors.margins: AppFontSize.smallRadius * 4
                 clip: true
-                interactive: false
+                interactive: true
                 currentIndex: -1
 
                 model: ListModel {
@@ -91,7 +91,7 @@ Window {
                         anchors.right: parent.right
                         anchors.rightMargin: AppFontSize.smallRadius * 2
                         anchors.verticalCenter: parent.verticalCenter
-                        color: "#fc9153"
+                        color: (index === listview.currentIndex) ? "#fc9153" : hovered ? "#fc9153" : "#55fc9153"
                         radius: height * 0.5
                     }
 
@@ -100,6 +100,7 @@ Window {
                         onClicked: {
                             listview.currentIndex = index
 
+                            // 发送选中信号
                             AppSignal.sgl_left_menu_select_change(type);
                         }
                     }
