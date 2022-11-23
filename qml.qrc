@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>Content/ControlsShow.qml</file>
+        <file>Content/TreeView_Mtr1994.qml</file>
     </qresource>
 </RCC>

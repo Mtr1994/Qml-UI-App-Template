@@ -4,6 +4,7 @@
 
 #include "Public/appfontsize.h"
 #include "Public/appsignal.h"
+#include "Model/standardtablemodel.h"
 
 
 int main(int argc, char *argv[])
@@ -24,6 +25,10 @@ int main(int argc, char *argv[])
 
     // 全局信号
     engine.rootContext()->setContextProperty("AppSignal", AppSignal::getInstance());
+
+    // 表格数据模型
+    StandardTableModel tableModel;
+    engine.rootContext()->setContextProperty("tableModel", &tableModel);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app, [url](QObject *obj, const QUrl &objUrl)

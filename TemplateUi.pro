@@ -11,6 +11,7 @@ lessThan(QT_MAJOR_VERSION, 6): win32: QMAKE_CXXFLAGS += -execution-charset:utf-8
 DESTDIR = ../output
 
 SOURCES += \
+        Model/standardtablemodel.cpp \
         Public/appfontsize.cpp \
         Public/appsignal.cpp \
         main.cpp
@@ -31,5 +32,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RC_ICONS = icon.ico
 
 HEADERS += \
+    Model/standardtablemodel.h \
     Public/appfontsize.h \
     Public/appsignal.h

@@ -1,7 +1,6 @@
 ﻿import QtQuick 2.15
 
 import QtQuick.Controls 2.5
-import QtQuick.Controls.Styles 1.4
 
 import Qt.labs.qmlmodels 1.0
 
@@ -318,9 +317,9 @@ Item {
                     ListElement { name: "香蕉"; cost: 2.45 }
                     ListElement { name: "火龙果"; cost: 2.65 }
                     ListElement { name: "葡萄"; cost: 2.78 }
-                    ListElement { name: "香蕉"; cost: 2.45 }
-                    ListElement { name: "火龙果"; cost: 2.65 }
-                    ListElement { name: "葡萄"; cost: 2.78 }
+                    ListElement { name: "离子"; cost: 2.45 }
+                    ListElement { name: "柚子"; cost: 2.65 }
+                    ListElement { name: "哈密瓜"; cost: 2.78 }
                 }
                 onActivated: {
                     console.info("index:" + index + ", text:" + comboBox.textAt(index))
@@ -351,7 +350,7 @@ Item {
                     width: AppFontSize.smallRadius * 3
                     height: AppFontSize.smallRadius * 3
                     radius: height * 0.5
-                    color: comboBox.hovered ? "#fc9153" : "#1890ff"
+                    color: comboBox.popup.visible ? "#fc9153" : "#1890ff"
                     anchors.right: parent.right
                     anchors.rightMargin: AppFontSize.smallRadius * 3
                     anchors.verticalCenter: parent.verticalCenter
@@ -381,7 +380,7 @@ Item {
                 popup: Popup {
                     y: comboBox.height + AppFontSize.smallRadius * 2
                     width: comboBox.width;
-                    height: AppFontSize.fontWidth * 12;
+                    height: AppFontSize.fontWidth * 12 + AppFontSize.smallRadius * 2;
 
                     contentItem: ListView {
                         clip: true
@@ -523,7 +522,7 @@ Item {
             // 表格
             Rectangle {
                 id: rectTableview
-                width: AppFontSize.fontWidth * 32
+                width: AppFontSize.fontWidth * 48
                 height: AppFontSize.fontWidth * 24
                 border.width: 1
                 border.color: "#d0d0d0"
@@ -560,7 +559,7 @@ Item {
                             text: display
                             anchors.fill: parent
                             font.family: "Microsoft YaHei"
-                            font.pointSize: AppFontSize.pointSize
+                            font.pointSize: AppFontSize.pointSize + 1
                             renderType: Text.NativeRendering
                             verticalAlignment: Text.AlignVCenter
                             leftPadding: AppFontSize.fontWidth
@@ -585,41 +584,24 @@ Item {
 
                     property int selectIndex: 0
                     property int hoverIndex: 0
+                    property int rowCount: tableModel ? tableModel.rowCount() : 0
 
-                    model: TableModel {
-                        id: modelTableView
-                        TableModelColumn { display: "name"}
-                        TableModelColumn { display: "sex" }
-                        TableModelColumn { display: "age" }
-                        TableModelColumn { display: "place" }
-                        TableModelColumn { display: "per" }
-                        rows: [
-                            { "name": "Harry", "sex": "男", "age": 16, "place": "湖北", "per": "足球" },
-                            { "name": "Hedwig", "sex": "女", "age": 16, "place": "湖北", "per": "羽毛球" },
-                            { "name": "Hedwig", "sex": "女", "age": 16, "place": "湖北", "per": "羽毛球" },
-                            { "name": "Hedwig", "sex": "女", "age": 16, "place": "湖北", "per": "羽毛球" },
-                            { "name": "Hedwig", "sex": "女", "age": 16, "place": "湖北", "per": "羽毛球" },
-                            { "name": "Hedwig", "sex": "女", "age": 16, "place": "湖北", "per": "羽毛球" },
-                            { "name": "Hedwig", "sex": "女", "age": 16, "place": "湖北", "per": "羽毛球" },
-                            { "name": "Hedwig", "sex": "女", "age": 16, "place": "湖北", "per": "羽毛球" }
-                        ]
-                    }
+                    model: tableModel
 
                     delegate: Rectangle {
-
                         implicitWidth: headerView.width / modelHeader.columnCount
                         implicitHeight: AppFontSize.fontWidth * 2
-                        color: (index % modelTableView.rowCount === tableView.selectIndex) ? "#1890ff" : (index % modelTableView.rowCount === tableView.hoverIndex) ? "#f3f4f5" : "#fefefe"
+                        color: (row === tableView.selectIndex) ? "#1890ff" : (index % tableView.rowCount === tableView.hoverIndex) ? "#f3f4f5" : "#fefefe"
 
                         Text {
-                            text: display
+                            text: sex
                             anchors.fill: parent
                             font.family: "Microsoft YaHei"
                             font.pointSize: AppFontSize.pointSize
                             renderType: Text.NativeRendering
                             verticalAlignment: Text.AlignVCenter
                             leftPadding: AppFontSize.fontWidth
-                            color: (index % modelTableView.rowCount === tableView.selectIndex) ? "#fefefe" : Qt.rgba(0, 0, 0, 0.85)
+                            color: (row === tableView.selectIndex) ? "#fefefe" : Qt.rgba(0, 0, 0, 0.85)
                         }
 
                         Rectangle {anchors.bottom: parent.bottom; color: "#f7f7f9"; width: parent.width; height: 1}
@@ -628,13 +610,14 @@ Item {
                             anchors.fill: parent
                             hoverEnabled: true
                             onEntered: {
-                                tableView.hoverIndex = index % modelTableView.rowCount
+                                tableView.hoverIndex = row
                             }
                             onExited: {
                                 tableView.hoverIndex = -1
                             }
                             onClicked: {
-                                tableView.selectIndex = index % modelTableView.rowCount
+                                tableView.selectIndex = row
+                                console.log(row)
                             }
                         }
                     }
@@ -650,6 +633,11 @@ Item {
                 border.color: "#d0d0d0"
                 radius: AppFontSize.smallRadius
                 visible: rectControls.currentControlType === "TreeView"
+
+                TreeView_Mtr1994 {
+                    id: treeView
+                    anchors.fill: parent
+                }
             }
         }
     }

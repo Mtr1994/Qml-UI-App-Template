@@ -44,6 +44,7 @@ Window {
                 clip: true
                 interactive: true
                 currentIndex: -1
+                spacing: AppFontSize.smallRadius
 
                 model: ListModel {
                     id: model
@@ -58,7 +59,7 @@ Window {
                     ListElement { name: "输入框"; type: "TextField" }
                     ListElement { name: "富文本框"; type: "TextArea" }
                     ListElement { name: "表格"; type: "TableView" }
-                    ListElement { name: "树状图"; type: "TreeView" }
+                    ListElement { name: "树状视图"; type: "TreeView" }
                 }
 
                 delegate: ItemDelegate {
