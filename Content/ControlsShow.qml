@@ -519,7 +519,7 @@ Item {
                 }
             }
 
-            // 表格
+            // 表格 (多选问题)
             Rectangle {
                 id: rectTableview
                 width: AppFontSize.fontWidth * 48
@@ -573,28 +573,32 @@ Item {
                 TableView {
                     id: tableView
                     anchors.top: headerView.bottom
-                    anchors.topMargin: AppFontSize.smallRadius
+                    anchors.margins: AppFontSize.smallRadius
                     anchors.left: parent.left
-                    anchors.leftMargin: AppFontSize.smallRadius
                     anchors.right: parent.right
-                    anchors.rightMargin: AppFontSize.smallRadius
                     anchors.bottom: parent.bottom
-                    anchors.bottomMargin: AppFontSize.smallRadius
                     clip: true
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            tableView.selectIndex = -1
+                            console.log("here", tableView.selectIndex)
+                        }
+                    }
 
                     property int selectIndex: 0
                     property int hoverIndex: 0
-                    property int rowCount: tableModel ? tableModel.rowCount() : 0
 
                     model: tableModel
 
                     delegate: Rectangle {
                         implicitWidth: headerView.width / modelHeader.columnCount
                         implicitHeight: AppFontSize.fontWidth * 2
-                        color: (row === tableView.selectIndex) ? "#1890ff" : (index % tableView.rowCount === tableView.hoverIndex) ? "#f3f4f5" : "#fefefe"
+                        color: (row === tableView.selectIndex) ? "#1890ff" : (row === tableView.hoverIndex) ? "#f3f4f5" : "#fefefe"
 
                         Text {
-                            text: sex
+                            text: display
                             anchors.fill: parent
                             font.family: "Microsoft YaHei"
                             font.pointSize: AppFontSize.pointSize
@@ -617,7 +621,6 @@ Item {
                             }
                             onClicked: {
                                 tableView.selectIndex = row
-                                console.log(row)
                             }
                         }
                     }
@@ -628,7 +631,7 @@ Item {
             Rectangle {
                 id: rectTreeView
                 width: AppFontSize.fontWidth * 24
-                height: AppFontSize.fontWidth * 12
+                height: AppFontSize.fontWidth * 36
                 border.width: 1
                 border.color: "#d0d0d0"
                 radius: AppFontSize.smallRadius

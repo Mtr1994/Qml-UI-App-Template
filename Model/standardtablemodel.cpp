@@ -11,13 +11,8 @@ StandardTableModel::StandardTableModel(QObject *parent)
         {"王五", 0, 26, "北京", "羽毛球"},
         {"赵六", 1, 27, "上海", "棒球"},
         {"吴起", 0, 28, "威海", "橄榄球"},
+        {"陈八", 0, 28, "天津", "乒乓球"},
     };
-
-    mRoleName.insert(STUDENT_NAME, "Name");
-    mRoleName.insert(STUDENT_SEX, "Sex");
-    mRoleName.insert(STUDENT_AGE, "Age");
-    mRoleName.insert(STUDENT_NATIVE_PLACE, "NativePlace");
-    mRoleName.insert(STUDENT_PREFERENCE, "Preference");
 }
 
 StandardTableModel::~StandardTableModel()
@@ -34,35 +29,40 @@ int StandardTableModel::rowCount(const QModelIndex &parent) const
 int StandardTableModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid()) return 0;
-    return mRoleName.size();
+    return STUDENT_PREFERENCE + 1;
 }
 
 QVariant StandardTableModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) return QVariant();
 
-    switch(role)
-    {
-    case STUDENT_NAME:
-        return mModelData[index.row()].name;
-    case STUDENT_SEX:
-        return mModelData[index.row()].sex;
-    case STUDENT_AGE:
-        return mModelData[index.row()].age;
-    case STUDENT_NATIVE_PLACE:
-        return mModelData[index.row()].nativeplace;
-    case STUDENT_PREFERENCE:
-        return mModelData[index.row()].preference;
+    switch (role) {
+    case Qt::DisplayRole:
+        switch(index.column())
+        {
+        case STUDENT_NAME:
+            return mModelData[index.row()].name;
+        case STUDENT_SEX:
+            return mModelData[index.row()].sex;
+        case STUDENT_AGE:
+            return mModelData[index.row()].age;
+        case STUDENT_NATIVE_PLACE:
+            return mModelData[index.row()].nativeplace;
+        case STUDENT_PREFERENCE:
+            return mModelData[index.row()].preference;
+        default:
+            break;
+        }
     default:
         break;
     }
+
     return QVariant();
 }
 
 QHash<int, QByteArray> StandardTableModel::roleNames() const
 {
-    return { {STUDENT_AGE, "display"}, {STUDENT_SEX, "sex"} };
-    //return mRoleName;
+    return { {Qt::DisplayRole, "display"} };
 }
 
 QModelIndex StandardTableModel::index(int row, int column, const QModelIndex &parent) const

@@ -12,11 +12,13 @@ DESTDIR = ../output
 
 SOURCES += \
         Model/standardtablemodel.cpp \
+        Model/standardtreemodel.cpp \
         Public/appfontsize.cpp \
         Public/appsignal.cpp \
         main.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+    Resources.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -33,5 +35,6 @@ RC_ICONS = icon.ico
 
 HEADERS += \
     Model/standardtablemodel.h \
+    Model/standardtreemodel.h \
     Public/appfontsize.h \
     Public/appsignal.h

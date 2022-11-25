@@ -5,6 +5,7 @@
 #include "Public/appfontsize.h"
 #include "Public/appsignal.h"
 #include "Model/standardtablemodel.h"
+#include "Model/standardtreemodel.h"
 
 
 int main(int argc, char *argv[])
@@ -29,6 +30,10 @@ int main(int argc, char *argv[])
     // 表格数据模型
     StandardTableModel tableModel;
     engine.rootContext()->setContextProperty("tableModel", &tableModel);
+
+    // 树型数据模型
+    StandardTreeModel treeModel;
+    engine.rootContext()->setContextProperty("treeModel", &treeModel);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app, [url](QObject *obj, const QUrl &objUrl)

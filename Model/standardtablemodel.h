@@ -15,11 +15,8 @@ struct Student {
 class StandardTableModel : public QAbstractTableModel
 {
     Q_OBJECT
-    QML_ELEMENT
-    QML_ADDED_IN_MINOR_VERSION(1)
-
 public:
-    enum TableItemRole { STUDENT_NAME = Qt::DisplayRole + 1, STUDENT_SEX, STUDENT_AGE, STUDENT_NATIVE_PLACE, STUDENT_PREFERENCE};
+    enum TableItemRole { STUDENT_NAME = 0, STUDENT_SEX, STUDENT_AGE, STUDENT_NATIVE_PLACE, STUDENT_PREFERENCE};
     explicit StandardTableModel(QObject *parent = nullptr);
     ~StandardTableModel();
 
@@ -33,7 +30,6 @@ public:
 
 private:
     QList <Student> mModelData;
-    QHash<int, QByteArray> mRoleName;
 };
 
 #endif // STANDARDTABLEMODEL_H

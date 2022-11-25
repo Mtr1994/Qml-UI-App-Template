@@ -1,5 +1,6 @@
 ﻿import QtQuick 2.15
 import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 
 Item {
 
@@ -7,69 +8,91 @@ Item {
         id: treeView
         anchors.fill: parent
         anchors.margins: AppFontSize.smallRadius
+        frameVisible: false
+        //headerVisible: false
 
-        TableViewColumn { title: "Name"; role: "name" }
+        property int selectIndex: -1
+        property int hoverIndex: -1
 
-         headerDelegate: Rectangle {
-             implicitWidth: parent.width / treeView.columnCount
-             implicitHeight: AppFontSize.fontWidth * 2
+        TableViewColumn { title: "名称"; role: "display" }
 
-             Text {
-                 text: "名称"
-                 anchors.fill: parent
-                 font.family: "Microsoft YaHei"
-                 font.pointSize: AppFontSize.pointSize + 1
-                 renderType: Text.NativeRendering
-                 verticalAlignment: Text.AlignVCenter
-                 leftPadding: AppFontSize.fontWidth
-                 font.bold: true
-             }
+        style: TreeViewStyle {
+            // 表头
+            headerDelegate: Rectangle {
+                implicitWidth: parent.width / treeView.columnCount
+                implicitHeight: AppFontSize.fontWidth * 2
 
-             Rectangle {anchors.bottom: parent.bottom; color: "#f7f7f9"; width: parent.width; height: 1}
-         }
+                Text {
+                    text: styleData.value
+                    anchors.fill: parent
+                    font.family: "Microsoft YaHei"
+                    font.pointSize: AppFontSize.pointSize + 1
+                    renderType: Text.NativeRendering
+                    verticalAlignment: Text.AlignVCenter
+                    leftPadding: AppFontSize.fontWidth
+                    font.bold: true
+                }
 
-         itemDelegate: Rectangle {
-            implicitWidth: parent.width / treeView.columnCount
-            implicitHeight: AppFontSize.fontWidth * 2
-            color: "#fefefe"
-
-            Text {
-               text: "不知道"
-               anchors.fill: parent
-               font.family: "Microsoft YaHei"
-               font.pointSize: AppFontSize.pointSize
-               renderType: Text.NativeRendering
-               verticalAlignment: Text.AlignVCenter
-               leftPadding: AppFontSize.fontWidth
-               color: Qt.rgba(0, 0, 0, 0.85)
+                Rectangle {anchors.bottom: parent.bottom; color: "#f7f7f9"; width: parent.width; height: 1}
             }
 
-            Rectangle {anchors.bottom: parent.bottom; color: "#f7f7f9"; width: parent.width; height: 1}
+            // 显示文本
+            itemDelegate: Rectangle {
+               implicitWidth: parent.width / treeView.columnCount
+               implicitHeight: AppFontSize.fontWidth * 2
+               color: (styleData.row === treeView.selectIndex) ? "#1890ff": "#fefefe"
 
-            MouseArea {
-               anchors.fill: parent
-               hoverEnabled: true
-               onEntered: {
-                  // tableView.hoverIndex = index % modelTableView.rowCount
+               Text {
+                  text: styleData.value
+                  anchors.fill: parent
+                  font.family: "Microsoft YaHei"
+                  font.pointSize: AppFontSize.pointSize
+                  renderType: Text.NativeRendering
+                  verticalAlignment: Text.AlignVCenter
+                  color: (styleData.row === treeView.selectIndex) ? "#fefefe" : Qt.rgba(0, 0, 0, 0.85)
                }
-               onExited: {
-                   //tableView.hoverIndex = -1
-               }
-               onClicked: {
-                  // tableView.selectIndex = index % modelTableView.rowCount
+
+               MouseArea {
+                  anchors.fill: parent
+                  hoverEnabled: true
+                  onEntered: {
+                     // tableView.hoverIndex = index % modelTableView.rowCount
+                  }
+                  onExited: {
+                      //tableView.hoverIndex = -1
+                  }
+                  onClicked: {
+                     treeView.selectIndex = styleData.row
+                  }
                }
             }
-         }
 
-         model: ListModel {
-             ListElement { name: "苹果"; cost: 4.00 }
-             ListElement { name: "橙子"; cost: 3.25 }
-             ListElement { name: "香蕉"; cost: 2.45 }
-             ListElement { name: "火龙果"; cost: 2.65 }
-             ListElement { name: "葡萄"; cost: 2.78 }
-             ListElement { name: "离子"; cost: 2.45 }
-             ListElement { name: "柚子"; cost: 2.65 }
-             ListElement { name: "哈密瓜"; cost: 2.78 }
-         }
+            // 控制行高，只能用 width 和 height，不能隐式指定
+            rowDelegate : Rectangle {
+                width: parent.width
+                height: AppFontSize.fontWidth * 2
+                color: (styleData.row === treeView.selectIndex) ? "#1890ff": "#fefefe"
+            }
+
+            branchDelegate: Rectangle {
+                width: AppFontSize.fontWidth * 0.6
+                height: AppFontSize.fontWidth * 0.6
+                color: "transparent"
+
+                property bool selected: styleData.row === treeView.selectIndex
+                property string iconRightUrl: "qrc:/Resource/image/tree_view_right.svg"
+                property string iconDownUrl: "qrc:/Resource/image/tree_view_down.svg"
+                property string iconRightSelectUrl: "qrc:/Resource/image/tree_view_right_select.svg"
+                property string iconDownSelectUrl: "qrc:/Resource/image/tree_view_down_select.svg"
+
+                Image {
+                    source: styleData.isExpanded ? (selected ? iconDownSelectUrl: iconDownUrl) : (selected ? iconRightSelectUrl: iconRightUrl)
+                    sourceSize.width: parent.width
+                    sourceSize.height: parent.width
+                }
+            }
+        }
+
+        model: treeModel
     }
 }
