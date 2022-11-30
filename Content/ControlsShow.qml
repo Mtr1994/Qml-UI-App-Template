@@ -317,14 +317,12 @@ Item {
                     ListElement { name: "香蕉"; cost: 2.45 }
                     ListElement { name: "火龙果"; cost: 2.65 }
                     ListElement { name: "葡萄"; cost: 2.78 }
-                    ListElement { name: "离子"; cost: 2.45 }
+                    ListElement { name: "梨子"; cost: 2.45 }
                     ListElement { name: "柚子"; cost: 2.65 }
                     ListElement { name: "哈密瓜"; cost: 2.78 }
                 }
                 onActivated: {
-                    console.info("index:" + index + ", text:" + comboBox.textAt(index))
                     var item = comboBox.model.get(index)
-                    console.info("name:" + item.name + ", cost:" + item.cost)
                 }
                 background: Rectangle {
                     width: parent.width
@@ -387,7 +385,7 @@ Item {
                         anchors.fill: parent
                         anchors.margins: AppFontSize.smallRadius
                         //禁止滑动
-                        // interactive: false;
+                        //interactive: false;
                         //禁用橡皮筋效果
                         boundsBehavior: Flickable.DragOverBounds
 
@@ -462,7 +460,7 @@ Item {
                 selectByMouse: true
                 selectedTextColor: "#fefefe"
                 selectionColor: "#fc9153"
-                width: AppFontSize.fontWidth * 10
+                width: AppFontSize.fontWidth * 12
                 height: AppFontSize.fontWidth * 2
                 renderType: TextField.NativeRendering
 
@@ -578,14 +576,6 @@ Item {
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
                     clip: true
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            tableView.selectIndex = -1
-                            console.log("here", tableView.selectIndex)
-                        }
-                    }
 
                     property int selectIndex: 0
                     property int hoverIndex: 0
