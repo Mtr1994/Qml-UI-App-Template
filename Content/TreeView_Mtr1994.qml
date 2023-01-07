@@ -1,6 +1,7 @@
 ﻿import QtQuick 2.15
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import QtQml.Models 2.15
 
 Item {
 
@@ -14,7 +15,7 @@ Item {
         property int selectIndex: -1
         property int hoverIndex: -1
 
-        TableViewColumn { title: "名称"; role: "display" }
+        TableViewColumn { title: "江夏区第一中学"; role: "display" }
 
         style: TreeViewStyle {
             // 表头
@@ -74,6 +75,7 @@ Item {
                 color: (styleData.row === treeView.selectIndex) ? "#1890ff": "#fefefe"
             }
 
+            // 箭头图标
             branchDelegate: Rectangle {
                 width: AppFontSize.fontWidth * 0.6
                 height: AppFontSize.fontWidth * 0.6
@@ -95,4 +97,5 @@ Item {
 
         model: treeModel
     }
+
 }

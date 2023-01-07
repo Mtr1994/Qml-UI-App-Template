@@ -579,16 +579,8 @@ Item {
                     anchors.bottom: parent.bottom
                     clip: true
 
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            tableView.selectIndex = -1
-                            console.log("here", tableView.selectIndex)
-                        }
-                    }
-
-                    property int selectIndex: 0
-                    property int hoverIndex: 0
+                    property int selectIndex: -1
+                    property int hoverIndex: -1
 
                     model: tableModel
 
@@ -598,6 +590,7 @@ Item {
                         color: (row === tableView.selectIndex) ? "#1890ff" : (row === tableView.hoverIndex) ? "#f3f4f5" : "#fefefe"
 
                         Text {
+                            id: textDisplay
                             text: display
                             anchors.fill: parent
                             font.family: "Microsoft YaHei"
@@ -608,10 +601,10 @@ Item {
                             color: (row === tableView.selectIndex) ? "#fefefe" : Qt.rgba(0, 0, 0, 0.85)
                         }
 
-                        Rectangle {anchors.bottom: parent.bottom; color: "#f7f7f9"; width: parent.width; height: 1}
+                        Rectangle { anchors.bottom: parent.bottom; color: "#f7f7f9"; width: parent.width; height: 1 }
 
                         MouseArea {
-                            anchors.fill: parent
+                            anchors.fill: textDisplay
                             hoverEnabled: true
                             onEntered: {
                                 tableView.hoverIndex = row

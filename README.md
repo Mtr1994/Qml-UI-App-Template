@@ -28,3 +28,4 @@ QML 工程的模板程序，附带一些编程技巧，方便后期快速回顾�
 
 * 控件高度需要是整数，否则会出现反走样导致底部边框多出一个像素并且变模糊
 * 控件内部字体需要使用 `renderType: TextInput.NativeRendering` 否则会显得很模糊
+* `MouseArea` 内部可以使用 `mouse.accepted = false` 来向上层传递鼠标事件
