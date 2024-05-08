@@ -8,7 +8,7 @@ lessThan(QT_MAJOR_VERSION, 6): win32: QMAKE_CXXFLAGS += -execution-charset:utf-8
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-DESTDIR = ../output
+DESTDIR = ../Output
 
 SOURCES += \
         Model/standardtablemodel.cpp \

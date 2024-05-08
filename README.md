@@ -1,9 +1,13 @@
 # Qml-UI-App-Template
+![Platform](https://img.shields.io/badge/paltform-win10_x64-brightgreen)
+![Qt Version](https://img.shields.io/badge/_Qt_-5.15.2-yellowgreen)
+![Build](https://img.shields.io/badge/build-MSVC_2019_x64-blue)
+
+#### 一、介绍
+
 QML 工程的模板程序，附带一些编程技巧，方便后期快速回顾该编程技术。
 
-
-
-### 语法注意事项
+#### 二、语法注意事项
 
 * `Item` 及其子类，用锚布局很合适，可用于处理 `铺满` 、`边距` 、`自动拉伸` 等情景
 

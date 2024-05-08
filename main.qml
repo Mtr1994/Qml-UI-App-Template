@@ -13,7 +13,7 @@ Window {
     minimumHeight: AppFontSize.fontWidth * 84 * 0.618
     visible: true
     color: "#000000"
-    title: "文本标记语言程序模板"
+    title: "Mtr1994"
 
     Rectangle {
         id: rectWindowBase
